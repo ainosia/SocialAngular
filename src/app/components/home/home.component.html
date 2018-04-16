@@ -1,0 +1,23 @@
+<div class="col-lg-8 col-lg-offset-2">
+	<div class="jumbotron">
+		<h1>{{ title }}</h1>
+		<p>Disfruta de las publicaciones de tus amigos y comparte tus actividades con ellos</p>
+		<ul class="home-list">
+			<li>
+				<a class="glyphicon glyphicon-user" [routerLink]="['/perfil', identity._id]">
+					<span>Mi Perfil</span>
+				</a>
+			</li>
+			<li>
+				<a class="glyphicon glyphicon-tasks" [routerLink] = "['/timeline']">
+					<span>Timeline</span>
+				</a>
+			</li>
+			<li>
+				<a class="glyphicon glyphicon-globe" [routerLink] = "['/gente']">
+					<span>Gente</span>
+				</a>
+			</li>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,68 @@
+<div id="user-card" class="panel panel-default">
+	<div class="avatar">
+		<img src="{{ url + 'get-image-user/' + identity.image }}" *ngIf="identity.image">
+		<img src="assets/user.png" *ngIf="!identity.image">
+	</div>
+
+	<div class="name-surname">
+		<a [routerLink]="['/perfil', identity._id]">
+			{{ identity.name +' '+ identity.surname }}
+		</a>
+	</div>
+
+	<ul class="sidebar-stats" *ngIf="stats">
+		<li>
+			<a [routerLink]="['/siguiendo', identity._id, 1]">
+				<span>Siguiendo</span>
+				<span class="number">{{ stats.following }}</span>
+			</a>
+		</li>
+
+		<li>
+			<a [routerLink]="['/seguidores', identity._id, 1]">
+				<span>Seguidores</span>
+				<span class="number">{{ stats.followed }}</span>
+			</a>
+		</li>
+
+		<li>
+			<a [routerLink]="['/perfil', identity._id]">
+				<span>Publicaciones</span>
+				<span class="number">{{ stats.publications }}</span>
+			</a>
+		</li>
+	</ul>
+</div>
+
+<!-- Formulario de publicaciones -->
+<div id="new-publication" class="panel panel-default">
+	<div class="alert alert-success" *ngIf="status == 'success'">
+		<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+		<span>Publicación enviada correctamente</span>
+	</div>
+
+	<div class="alert alert-danger" *ngIf="status == 'error'">
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+		<span>Publicación no enviada</span>
+	</div>
+
+	<form #newPubForm="ngForm" (ngSubmit)="onSubmit(newPubForm, $event);">
+		<p>
+			<label>¿Qué quieres comentar?</label>
+			<textarea name="text" #text="ngModel" [(ngModel)]="publication.text" class="form-control" required>
+			</textarea>
+			<span *ngIf="!text.valid && text.touched">
+				El texto de la publicación es obligatorio
+			</span>
+		</p>
+
+		<div class="input-file">
+			<label>Sube una foto</label>
+			<input type="file" placeholder="Subir imagen" (change)="fileChangeEvent($event)">
+		</div>
+
+		<div class="text-right">
+			<input type="submit" value="Enviar" class="btn btn-success" [disabled]="!newPubForm.form.valid">
+		</div>
+	</form>
+</div>

@@ -1,0 +1,40 @@
+<h1 class="messages">{{ title }}</h1>
+
+<div class="alert alert-success" *ngIf="status === 'success'">
+	<span class="glyphicon glyphicon-ok-sign" aria-hidden="true"></span>
+	<span>Mensaje enviado correctamente. Míralo en </span>
+	<a [routerLink]="['/mensajes/enviados']">
+		tus mensajes enviados
+		<span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span>
+	</a>
+</div>
+
+<div class="alert alert-danger" *ngIf="status === 'error'">
+	<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+	<span>
+		No se ha podido enviar el mensaje correctamente. Inténtalo de nuevo
+	</span>
+</div>
+
+<!-- formulario envío mensajes -->
+<form #formAdd="ngForm" (ngSubmit)="onSubmit(formAdd)">
+	<p>
+		<label>Para:</label>
+		<!-- listado de seguidores -->
+		<select *ngIf="follows" name="receiver" #receiver="ngModel" [(ngModel)]="message.receiver" class="form-control" required>
+			<option *ngFor="let follow of follows" value="{{ follow.user._id }}">
+				{{ follow.user.name + ' ' + follow.user.surname + ' ('+ follow.user.nick + ')' }}
+			</option>
+		</select>
+	</p>
+	<p>
+		<label>Mensaje:</label>
+		<textarea name="text" #text="ngModel" [(ngModel)]="message.text" class="form-control" required></textarea>
+		<span *ngIf="!text.valid && text.touched">
+			El mensaje es obligatorio
+		</span>
+	</p>
+	<div class="text-right">
+		<input type="submit" value="{{ title }}" class="btn btn-success">
+	</div>
+</form>

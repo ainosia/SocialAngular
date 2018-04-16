@@ -1,0 +1,76 @@
+<div class="timeline-container">
+	<div class="timeline col-lg-8 pull-left">
+		<h1 class="users">{{ title }}</h1>
+		<div id="publications">
+			<div *ngFor="let publication of publications">
+				<div class="panel panel-default">
+					<div class="panel-body">
+						<div class="image-user">
+							<a href="#">
+								<img src="{{ url + 'get-image-user/' + publication.user.image }}" *ngIf="publication.user.image">
+								<img src="assets/user.png" *ngIf="!publication.user.image">
+							</a>
+						</div>
+						<div class="content">
+							<div class="date pull-right">{{ (publication.created_at | amFromUnix) | amLocale:'es' | amTimeAgo }}</div>
+							<a [routerLink]="['/perfil', publication.user._id]" class="publication-name">
+								{{ publication.user.name + ' ' + publication.user.surname }}
+							</a>
+							<p class="publication-text">{{ publication.text }}</p>
+
+							<div class="pull-right">
+								<!-- Botón modal -->
+								<a class="delete" href="#myModal{{ publication._id }}" role="button" data-toggle="modal" *ngIf="showImage != publication._id">
+									<span class="glyphicon glyphicon-trash"></span>
+								</a> 
+							</div>
+							<div class="pull-right" *ngIf="publication.file != 'null' ">
+								<a class="show-image" (click)="showThisImage(publication._id)" *ngIf="showImage != publication._id">
+									<span class="glyphicon glyphicon-picture"></span>
+								</a>
+								<a class="hide-image" (click)="hideThisImage(publication._id)" *ngIf="showImage == publication._id">
+									<span class="glyphicon glyphicon-remove-circle"></span>
+								</a>
+							</div>
+						</div>
+					</div>
+
+					<!-- Modal HTML -->
+					<div id="myModal{{ publication._id }}" class="modal fade">
+					    <div class="modal-dialog">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>					                
+					            </div>
+
+					            <div class="modal-body">
+					                <h4 class="modal-title">¿Seguro que quieres eliminar la publicación?</h4>
+					            </div>
+
+					            <div class="modal-footer">
+					            	<button type="button" class="btn btn-success" (click)="deletePublication(publication._id)" data-dismiss="modal">Eliminar</button>
+					            	<button type="button" class="btn btn-default" data-dismiss="modal">
+					                Cancelar</button>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+
+					<div class="upload-image-content" *ngIf="publication.file != 'null' && showImage == publication._id">
+						<img src="{{ url + 'get-image-pub/' + publication.file }}">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="text-right" *ngIf="publications && publications.length">
+			<button class="btn btn-success" (click)="viewMore()" *ngIf="!noMore">
+				<span class=" glyphicon glyphicon-plus-sign"></span>
+				Publicaciones
+			</button>
+		</div>
+	</div>
+	<div class="col-lg-4 pull-right">
+		<h1 class="sidebar-title">{{ identity.nick }}</h1>
+		<sidebar (sent)="refresh($event)"></sidebar>
+	</div>
+</div>

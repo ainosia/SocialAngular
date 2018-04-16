@@ -1,0 +1,34 @@
+<!-- <div class="timeline-container">
+	<div class="timeline col-lg-8 pull-left">
+		<h1 class="users">{{ title }}</h1> -->
+
+		
+	<!-- </div> -->
+
+<div id="publications" class="timeline">
+	<h1 class="publications">Mis publicaciones</h1>
+	<div *ngFor="let publication of publications">
+		<div class="panel panel-default panel-publications">
+			<div class="panel-body">
+				<div class="image-user">
+					<a href="#">
+						<img src="{{ url + 'get-image-user/' + publication.user.image }}" *ngIf="publication.user.image">
+						<img src="assets/user.png" *ngIf="!publication.user.image">
+					</a>
+				</div>
+				<div class="content">
+					<div class="date pull-right">{{ (publication.created_at | amFromUnix) | amLocale:'es' | amTimeAgo }}</div>
+					<p class="publication-name">{{ publication.user.name + ' ' + publication.user.surname }}</p>
+					<p class="publication-text">{{ publication.text }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="text-right" *ngIf="publications && publications.length">
+		<button class="btn btn-success" (click)="viewMore()" *ngIf="!noMore">
+			<span class=" glyphicon glyphicon-plus-sign"></span>
+			Publicaciones
+		</button>
+	</div>
+</div>
